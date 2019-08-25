@@ -1,0 +1,48 @@
+% Anarchy: Incremental Chaos
+% Peter Mawhorter
+% August 22, 2019
+
+# Incremental Noise
+
+## Perlin & Simplex Noise
+
+<div class="columns top">
+<div class="fragment" data-fragment-index=1>
+![Black and white simplex noise](res/simplex_noise.png)\ 
+</div>
+<div class="fragment" data-fragment-index=2>
+![Screenshot from No Man's Sky demo with trees, grass, and cliffs](res/no_mans_sky_demo.jpg){width=80%}\ 
+</div>
+</div>
+
+<div class="fragment" data-fragment-index=2>
+[from [-\-verbose blog](http://www.dashdashverbose.com/2010/02/bring-perlin-noise.html) and [IGN](https://www.ign.com/videos/2014/06/10/no-mans-sky-gameplay-demo-e3-2014)]{.attribution}
+</div>
+
+## Noise Algorithms
+
+\ 
+
+input coordinates → pseudo-random process → noise
+
+\ 
+
+- *Incremental*: generate any part independently.
+- *Pseudo-random*: hard for a human to predict.
+- *Irreversible*: no way to get coordinates from noise value.
+
+## Incremental Processes
+
+<div class="columns">
+<div>
+![A valley in Minecraft](res/vista_crop.png){width=320}\ 
+</div>
+<div style="width: 80%;">
+- Provide a huge open world.
+- Generate just what the player explores.
+- Can mix in set-pieces or outputs from other generators.
+- Might not even have to store results...
+</div>
+</div>
+
+[Caveat: narratives of exploration/exploitation are harmful.]{.fragment .standout}

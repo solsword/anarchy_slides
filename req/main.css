@@ -162,6 +162,10 @@ h1 {
   align-items: center;
 }
 
+.reveal .columns > * {
+  margin: 1%;
+}
+
 .reveal .columns.top {
   align-items: flex-start;
 }
