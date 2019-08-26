@@ -46,3 +46,224 @@ input coordinates → pseudo-random process → noise
 </div>
 
 [Caveat: narratives of exploration/exploitation are harmful.]{.fragment .standout}
+
+## Incremental & Irreversible
+
+<div class="columns">
+<div>
+![A forest fire caused by lava near trees](res/lava_forest_fire_cropped.png){width=320}\ 
+</div>
+<div style="width: 80%;">
+- Lots of cool serendipity.
+- Few guarantees of specific situations.
+- No good way to detect them.
+    * E.g., where's the nearest desert in Minecraft?
+- Separate algorithm for key structures.
+</div>
+</div>
+
+## Shuffling for Guarantees
+
+- Shuffling fixed objects guarantees exact global distribution.
+- But shuffling is not *incremental*.
+    * We must compute and remember the shuffle up front.
+- Shuffles can be tiled, but then distribution must repeat.
+
+![Diagram showing four colors being shuffled and then assigned to a 2x2 grid, with a final step that blurs between them.](res/shuffle_terrain.png){width=100%}\ 
+
+## What if... ?
+
+- Can we have an incremental shuffling algorithm?
+- Could it be reversible?
+
+# Anarchy
+
+## Core Features
+
+- Incremental
+- Reversible
+- Shuffle and distribute items.
+- Just random enough to fool humans.
+- C, Python, and JavaScript versions.
+- 64-bit integer basis (32 in JavaScript).
+
+## Reversible PRNG
+
+- Pseudo-random number generators:
+    * Produce a sequence of unpredictable integers.
+    * Each seed determines a unique sequence.
+    * Sequences repeat, but only after a long time.
+- Anarchy lets you go backwards in the sequence.
+
+```{.python .fragment style="margin-top: 0pt;"}
+# standard PRNG
+next = prng(seed)
+# anarchy
+next = prng(prev, seed)
+prev = rev_prng(next, seed)
+```
+
+## Why go Backwards?
+
+> - From known seed, could step forward *n* - 1 times.
+> - That's not always practical in complex code.
+> - Figuring out $n$ can be expensive.
+> - Lets someone who has a product deduce the seed.
+
+## Reversible Shuffling
+
+- Normal shuffle:
+    * Use ~*n* time + space (results are stored)
+    * Use 2*n* space to also store inverse
+    * Must compute entire shuffle at once
+- Anarchy:
+    * Incremental: shuffle just the elements you want
+    * Reversible: also compute pre-shuffle index
+
+## Reversible Shuffling
+
+- Technique:
+    * Combine simple reversible/incremental operations, like circular shift or (perfect) riffle shuffle.
+    * Set parameters of each operation based on seed.
+    * Apply reverse operations in reverse order to undo.
+- Anarchy has 7 unique operations and applies 15 for each shuffle.
+
+---
+
+![A diagram showing how several simple reversible operations are composed to create a reversible shuffle the appears unpredictable.](res/cohort-shuffle.svg){width=50%}\ 
+
+## Reversible Shuffling
+
+```py
+# standard shuffle
+a = [0, 1, 2, 3, 4]
+random.shuffle(a) # operates in-place
+
+# anarchy
+for i in [0, 1, 2, 3, 4]:
+  sh = anarchy.cohort_shuffle(i, 5, seed)
+  assert(
+    i == anarchy.rev_cohort_shuffle(sh, 5, seed)
+  )
+```
+
+## Reversible Shuffling
+
+- Incremental means we can happily shuffle some portion of millions or billions
+  of elements.
+- Reversible means we can figure out where everything went.
+    * Generation of a world requires *world coords* → *which thing*
+    * Quests can use *which thing* → *world coords*
+
+## Reversible Distribution
+
+- Shuffling gives an exact global distribution.
+- Does not give control over local densities.
+    * Back to serendipity, but also lack of control.
+- We don't want uniformity, but we want to approach it.
+
+Solution: divide *N* items among *S* segments of size *C*, with *α* roughness.
+
+## Reversible Distribution
+
+- *α* = 0 → perfectly uniform distribution among segments.
+- *α* = 1 → perfectly random distribution among segments.
+- Also specify segment max capacity.
+- Still want the process to be *incremental* and *reversible*.
+
+```{.python .small}
+distribution_portion(s, N, S, C, α, seed)
+
+# reversible:
+distribution_segment(i, N, S, C, α, seed)
+
+# incremental:
+distribution_prior_sum(s, N, S, C, α, seed)
+```
+
+---
+
+![A diagram showing how items are recursively divided along with slots to create an assignment.](res/distribute-separate.svg){width=100%}\ 
+
+---
+
+![A similar diagram showing how the two sets of divisions are matched to each other.](res/distribute.svg){width=50%}\ 
+
+## Distribution Algorithm
+
+> 1. Compute half of segments and random split point for items.
+> 2. Pick first or second part:
+>     - If asking about an item, compare index to item split point.
+>     - If asking about a segment, compare to halfway point.
+> 3. Recurse in first or second part with fewer segments <br/>(and probably fewer items).
+>     - Stop if there is only one segment.
+
+## Distribution Algorithm
+
+- Takes ~ $\log_2(S)$ steps, where $S$ is the # of segments
+    - \# of items is irrelevant!
+    - $log_2$ of anything is pretty small.
+- Only computes splits needed for segment/item in question.
+- `distribution_prior_sum` allows incremental mapping of distributed items to
+  some other incremental space.
+
+## Combined Capabilities
+
+- Incremental algorithms play nice together.
+    * Shuffle items before distributing them, then shuffle distributed items
+      within each segment (all per-item).
+- Reversible algorithms also play nice.
+    * End-to-end reversibility.
+
+## Why Use Anarchy?{data-transition="slide-in fade-out"}
+
+- Standard approach: Tweak independent percentage chances for the appearance of each item.
+    - Only vague control over which items actually appear.
+    - No direct control over combinations.
+    - Can't rely on any specific item appearing.
+    - Psychologically powerful, but irresponsible.
+
+## Why Use Anarchy?{data-transition="fade-in slide-out"}
+
+- Anarchy approach: Use fixed distribution of what will appear and distribute/shuffle into slots.
+    - Exact control over what will appear (can still randomize).
+    - Hierarchical shuffling can help control combinations.
+    - Can rely on and even locate specific items.
+    - Players have guarantees about effort vs. reward.
+
+# Demo
+
+---
+
+<iframe class="medframe" src="https://solsword.github.io/words" frameborder="0"></iframe>
+
+[https://solsword.github.io/words](https://solsword.github.io/words)
+
+---
+
+![Hexagonal grid where each space contains a letter, and words can be found. The word 'sine' is selected.](res/words.png){width=30%}\ 
+![The same grid, with words highlighted in different colors. The word 'Bangkok' is selected. A red outline shows the shape of a hexagon within the grid that is four grid-units on each side.](res/words-highlighted.png){width=30%}\ 
+
+## Words Game
+
+- Millions of words distributed on hexagonal grid.
+    * One word for each edge of a "supertile," up to 12 letters long.
+    * Longer words get their own entire supertiles (up to 36 letters).
+- Space set aside randomly for other languages.
+    * Eventually add links between language planes.
+- We know where each copy of a word is.
+    * Eventually add quests for specific words.
+
+# Bonus Demo
+
+## Log-time Incremental Algorithms
+
+- Anarchy's distribution is a log-time incremental algorithm
+    * Can guarantee certain properties using recursion
+    * A good fit for fractal stuff
+    * Log-time is basically as good as constant-time
+- What else can you do with log-time algorithms?
+
+---
+
+[https://solsword.github.io/labyrinfinite](https://solsword.github.io/labyrinfinite)
