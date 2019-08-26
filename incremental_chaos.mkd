@@ -235,8 +235,6 @@ distribution_prior_sum(s, N, S, C, α, seed)
 
 ---
 
-<iframe class="medframe" src="https://solsword.github.io/words" frameborder="0"></iframe>
-
 [https://solsword.github.io/words](https://solsword.github.io/words)
 
 ---
