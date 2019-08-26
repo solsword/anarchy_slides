@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Peter Mawhorter">
+  <meta name="dcterms.date" content="2019-08-22">
+  <title>Anarchy: Incremental Chaos</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="req/reveal.js/css/reset.css">
+  <link rel="stylesheet" href="req/reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="req/reveal.js/css/theme/black.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'req/reveal.js/css/print/pdf.css' : 'req/reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="req/reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="req/main.css">
+  <link rel="stylesheet" type="text/css" href="req/reveal-theme.css">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Anarchy: Incremental Chaos</h1>
+  <p class="author">Peter Mawhorter</p>
+  <p class="date">August 22, 2019</p>
+</section>
+
+<section><section id="incremental-noise" class="title-slide slide level1"><h1>Incremental Noise</h1></section><section id="perlin-simplex-noise" class="slide level2">
+<h2>Perlin &amp; Simplex Noise</h2>
+<div class="columns top">
+<div class="fragment" data-fragment-index="1">
+<p><img data-src="res/simplex_noise.png" alt="Black and white simplex noise" /> </p>
+</div><div class="fragment" data-fragment-index="2">
+<p><img data-src="res/no_mans_sky_demo.jpg" style="width:80.0%" alt="Screenshot from No Man’s Sky demo with trees, grass, and cliffs" /> </p>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><span class="attribution">from <a href="http://www.dashdashverbose.com/2010/02/bring-perlin-noise.html">--verbose blog</a> and <a href="https://www.ign.com/videos/2014/06/10/no-mans-sky-gameplay-demo-e3-2014">IGN</a></span></p>
+</div>
+</section><section id="noise-algorithms" class="slide level2">
+<h2>Noise Algorithms</h2>
+<p> </p>
+<p>input coordinates → pseudo-random process → noise</p>
+<p> </p>
+<ul>
+<li><em>Incremental</em>: generate any part independently.</li>
+<li><em>Pseudo-random</em>: hard for a human to predict.</li>
+<li><em>Irreversible</em>: no way to get coordinates from noise value.</li>
+</ul>
+</section><section id="incremental-processes" class="slide level2">
+<h2>Incremental Processes</h2>
+<div class="columns">
+<div>
+<p><img data-src="res/vista_crop.png" width="320" alt="A valley in Minecraft" /> </p>
+</div><div style="width: 80%;">
+<ul>
+<li>Provide a huge open world.</li>
+<li>Generate just what the player explores.</li>
+<li>Can mix in set-pieces or outputs from other generators.</li>
+<li>Might not even have to store results…</li>
+</ul>
+</div>
+</div>
+<p><span class="fragment standout">Caveat: narratives of exploration/exploitation are harmful.</span></p>
+</section><section id="incremental-irreversible" class="slide level2">
+<h2>Incremental &amp; Irreversible</h2>
+<div class="columns">
+<div>
+<p><img data-src="res/lava_forest_fire_cropped.png" width="320" alt="A forest fire caused by lava near trees" /> </p>
+</div><div style="width: 80%;">
+<ul>
+<li>Lots of cool serendipity.</li>
+<li>Few guarantees of specific situations.</li>
+<li>No good way to detect them.
+<ul>
+<li>E.g., where’s the nearest desert in Minecraft?</li>
+</ul></li>
+<li>Separate algorithm for key structures.</li>
+</ul>
+</div>
+</div>
+</section><section id="shuffling-for-guarantees" class="slide level2">
+<h2>Shuffling for Guarantees</h2>
+<ul>
+<li>Shuffling fixed objects guarantees exact global distribution.</li>
+<li>But shuffling is not <em>incremental</em>.
+<ul>
+<li>We must compute and remember the shuffle up front.</li>
+</ul></li>
+<li>Shuffles can be tiled, but then distribution must repeat.</li>
+</ul>
+<p><img data-src="res/shuffle_terrain.png" style="width:100.0%" alt="Diagram showing four colors being shuffled and then assigned to a 2x2 grid, with a final step that blurs between them." /> </p>
+</section><section id="what-if" class="slide level2">
+<h2>What if… ?</h2>
+<ul>
+<li>Can we have an incremental shuffling algorithm?</li>
+<li>Could it be reversible?</li>
+</ul>
+</section></section>
+<section><section id="anarchy" class="title-slide slide level1"><h1>Anarchy</h1></section><section id="core-features" class="slide level2">
+<h2>Core Features</h2>
+<ul>
+<li>Incremental</li>
+<li>Reversible</li>
+<li>Shuffle and distribute items.</li>
+<li>Just random enough to fool humans.</li>
+<li>C, Python, and JavaScript versions.</li>
+<li>64-bit integer basis (32 in JavaScript).</li>
+</ul>
+</section><section id="reversible-prng" class="slide level2">
+<h2>Reversible PRNG</h2>
+<ul>
+<li>Pseudo-random number generators:
+<ul>
+<li>Produce a sequence of unpredictable integers.</li>
+<li>Each seed determines a unique sequence.</li>
+<li>Sequences repeat, but only after a long time.</li>
+</ul></li>
+<li>Anarchy lets you go backwards in the sequence.</li>
+</ul>
+<div class="sourceCode" id="cb1" style="margin-top: 0pt;"><pre class="sourceCode python fragment"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># standard PRNG</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">next</span> <span class="op">=</span> prng(seed)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># anarchy</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="bu">next</span> <span class="op">=</span> prng(prev, seed)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>prev <span class="op">=</span> rev_prng(<span class="bu">next</span>, seed)</span></code></pre></div>
+</section><section id="why-go-backwards" class="slide level2">
+<h2>Why go Backwards?</h2>
+<ul>
+<li class="fragment">From known seed, could step forward <em>n</em> - 1 times.</li>
+<li class="fragment">That’s not always practical in complex code.</li>
+<li class="fragment">Figuring out <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> can be expensive.</li>
+<li class="fragment">Lets someone who has a product deduce the seed.</li>
+</ul>
+</section><section id="reversible-shuffling" class="slide level2">
+<h2>Reversible Shuffling</h2>
+<ul>
+<li>Normal shuffle:
+<ul>
+<li>Use ~<em>n</em> time + space (results are stored)</li>
+<li>Use 2<em>n</em> space to also store inverse</li>
+<li>Must compute entire shuffle at once</li>
+</ul></li>
+<li>Anarchy:
+<ul>
+<li>Incremental: shuffle just the elements you want</li>
+<li>Reversible: also compute pre-shuffle index</li>
+</ul></li>
+</ul>
+</section><section id="reversible-shuffling-1" class="slide level2">
+<h2>Reversible Shuffling</h2>
+<ul>
+<li>Technique:
+<ul>
+<li>Combine simple reversible/incremental operations, like circular shift or (perfect) riffle shuffle.</li>
+<li>Set parameters of each operation based on seed.</li>
+<li>Apply reverse operations in reverse order to undo.</li>
+</ul></li>
+<li>Anarchy has 7 unique operations and applies 15 for each shuffle.</li>
+</ul>
+</section><section class="slide level2">
+
+<p><img data-src="res/cohort-shuffle.svg" style="width:50.0%" alt="A diagram showing how several simple reversible operations are composed to create a reversible shuffle the appears unpredictable." /> </p>
+</section><section id="reversible-shuffling-2" class="slide level2">
+<h2>Reversible Shuffling</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># standard shuffle</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>a <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb2-3"><a href="#cb2-3"></a>random.shuffle(a) <span class="co"># operates in-place</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># anarchy</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="cf">for</span> i <span class="kw">in</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]:</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  sh <span class="op">=</span> anarchy.cohort_shuffle(i, <span class="dv">5</span>, seed)</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="cf">assert</span>(</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    i <span class="op">==</span> anarchy.rev_cohort_shuffle(sh, <span class="dv">5</span>, seed)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  )</span></code></pre></div>
+</section><section id="reversible-shuffling-3" class="slide level2">
+<h2>Reversible Shuffling</h2>
+<ul>
+<li>Incremental means we can happily shuffle some portion of millions or billions of elements.</li>
+<li>Reversible means we can figure out where everything went.
+<ul>
+<li>Generation of a world requires <em>world coords</em> → <em>which thing</em></li>
+<li>Quests can use <em>which thing</em> → <em>world coords</em></li>
+</ul></li>
+</ul>
+</section><section id="reversible-distribution" class="slide level2">
+<h2>Reversible Distribution</h2>
+<ul>
+<li>Shuffling gives an exact global distribution.</li>
+<li>Does not give control over local densities.
+<ul>
+<li>Back to serendipity, but also lack of control.</li>
+</ul></li>
+<li>We don’t want uniformity, but we want to approach it.</li>
+</ul>
+<p>Solution: divide <em>N</em> items among <em>S</em> segments of size <em>C</em>, with <em>α</em> roughness.</p>
+</section><section id="reversible-distribution-1" class="slide level2">
+<h2>Reversible Distribution</h2>
+<ul>
+<li><em>α</em> = 0 → perfectly uniform distribution among segments.</li>
+<li><em>α</em> = 1 → perfectly random distribution among segments.</li>
+<li>Also specify segment max capacity.</li>
+<li>Still want the process to be <em>incremental</em> and <em>reversible</em>.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python small"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>distribution_portion(s, N, S, C, α, seed)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># reversible:</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>distribution_segment(i, N, S, C, α, seed)</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># incremental:</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>distribution_prior_sum(s, N, S, C, α, seed)</span></code></pre></div>
+</section><section class="slide level2">
+
+<p><img data-src="res/distribute-separate.svg" style="width:100.0%" alt="A diagram showing how items are recursively divided along with slots to create an assignment." /> </p>
+</section><section class="slide level2">
+
+<p><img data-src="res/distribute.svg" style="width:50.0%" alt="A similar diagram showing how the two sets of divisions are matched to each other." /> </p>
+</section><section id="distribution-algorithm" class="slide level2">
+<h2>Distribution Algorithm</h2>
+<ol type="1">
+<li class="fragment">Compute half of segments and random split point for items.</li>
+<li class="fragment">Pick first or second part:
+<ul>
+<li class="fragment">If asking about an item, compare index to item split point.</li>
+<li class="fragment">If asking about a segment, compare to halfway point.</li>
+</ul></li>
+<li class="fragment">Recurse in first or second part with fewer segments <br/>(and probably fewer items).
+<ul>
+<li class="fragment">Stop if there is only one segment.</li>
+</ul></li>
+</ol>
+</section><section id="distribution-algorithm-1" class="slide level2">
+<h2>Distribution Algorithm</h2>
+<ul>
+<li>Takes ~ <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(S)</annotation></semantics></math> steps, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math> is the # of segments
+<ul>
+<li># of items is irrelevant!</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">log_2</annotation></semantics></math> of anything is pretty small.</li>
+</ul></li>
+<li>Only computes splits needed for segment/item in question.</li>
+<li><code>distribution_prior_sum</code> allows incremental mapping of distributed items to some other incremental space.</li>
+</ul>
+</section><section id="combined-capabilities" class="slide level2">
+<h2>Combined Capabilities</h2>
+<ul>
+<li>Incremental algorithms play nice together.
+<ul>
+<li>Shuffle items before distributing them, then shuffle distributed items within each segment (all per-item).</li>
+</ul></li>
+<li>Reversible algorithms also play nice.
+<ul>
+<li>End-to-end reversibility.</li>
+</ul></li>
+</ul>
+</section><section id="why-use-anarchy" class="slide level2" data-transition="slide-in fade-out">
+<h2>Why Use Anarchy?</h2>
+<ul>
+<li>Standard approach: Tweak independent percentage chances for the appearance of each item.
+<ul>
+<li>Only vague control over which items actually appear.</li>
+<li>No direct control over combinations.</li>
+<li>Can’t rely on any specific item appearing.</li>
+<li>Psychologically powerful, but irresponsible.</li>
+</ul></li>
+</ul>
+</section><section id="why-use-anarchy-1" class="slide level2" data-transition="fade-in slide-out">
+<h2>Why Use Anarchy?</h2>
+<ul>
+<li>Anarchy approach: Use fixed distribution of what will appear and distribute/shuffle into slots.
+<ul>
+<li>Exact control over what will appear (can still randomize).</li>
+<li>Hierarchical shuffling can help control combinations.</li>
+<li>Can rely on and even locate specific items.</li>
+<li>Players have guarantees about effort vs. reward.</li>
+</ul></li>
+</ul>
+</section></section>
+<section><section id="demo" class="title-slide slide level1"><h1>Demo</h1></section><section class="slide level2">
+
+<iframe class="medframe" src="https://solsword.github.io/words" frameborder="0">
+</iframe>
+<p><a href="https://solsword.github.io/words">https://solsword.github.io/words</a></p>
+</section><section class="slide level2">
+
+<p><img data-src="res/words.png" style="width:30.0%" alt="Hexagonal grid where each space contains a letter, and words can be found. The word ‘sine’ is selected." />  <img data-src="res/words-highlighted.png" style="width:30.0%" alt="The same grid, with words highlighted in different colors. The word ‘Bangkok’ is selected. A red outline shows the shape of a hexagon within the grid that is four grid-units on each side." /> </p>
+</section><section id="words-game" class="slide level2">
+<h2>Words Game</h2>
+<ul>
+<li>Millions of words distributed on hexagonal grid.
+<ul>
+<li>One word for each edge of a “supertile,” up to 12 letters long.</li>
+<li>Longer words get their own entire supertiles (up to 36 letters).</li>
+</ul></li>
+<li>Space set aside randomly for other languages.
+<ul>
+<li>Eventually add links between language planes.</li>
+</ul></li>
+<li>We know where each copy of a word is.
+<ul>
+<li>Eventually add quests for specific words.</li>
+</ul></li>
+</ul>
+</section></section>
+<section><section id="bonus-demo" class="title-slide slide level1"><h1>Bonus Demo</h1></section><section id="log-time-incremental-algorithms" class="slide level2">
+<h2>Log-time Incremental Algorithms</h2>
+<ul>
+<li>Anarchy’s distribution is a log-time incremental algorithm
+<ul>
+<li>Can guarantee certain properties using recursion</li>
+<li>A good fit for fractal stuff</li>
+<li>Log-time is basically as good as constant-time</li>
+</ul></li>
+<li>What else can you do with log-time algorithms?</li>
+</ul>
+</section><section class="slide level2">
+
+<p><a href="https://solsword.github.io/labyrinfinite">https://solsword.github.io/labyrinfinite</a></p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="req/reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'req/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'req/reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'req/reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    <script type="text/javascript">
+  Reveal.configure({
+    width: 1000,
+    height: 650
+  });
+  </script>
+    </body>
+</html>

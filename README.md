@@ -1,6 +1,5 @@
-# `slides_template`
+# `anarchy_slides`
 
-A template for building presentations with pandoc + reveal.js. Has lots of
-useful examples and some custom stylesheet stuff.
+Slides explaining the `anarchy` random number generation library.
 
-Feel free to copy/modify; it's under MIT license.
+[View presentation](https://raw.githubusercontent.com/solsword/anarchy_slides/master/incremental_chaos.html)
