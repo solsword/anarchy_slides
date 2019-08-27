@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Peter Mawhorter">
+  <meta name="author" content="Peter Mawhorter Wellesley College">
   <meta name="dcterms.date" content="2019-08-22">
   <title>Anarchy: Incremental Chaos</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -104,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="title-slide">
   <h1 class="title">Anarchy: Incremental Chaos</h1>
-  <p class="author">Peter Mawhorter</p>
+  <p class="author">Peter Mawhorter<br/>Wellesley College</p>
   <p class="date">August 22, 2019</p>
 </section>
 
@@ -173,6 +173,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Shuffles can be tiled, but then distribution must repeat.</li>
 </ul>
 <p><img data-src="res/shuffle_terrain.png" style="width:100.0%" alt="Diagram showing four colors being shuffled and then assigned to a 2x2 grid, with a final step that blurs between them." /> </p>
+</section><section class="slide level2">
+
+<p><img data-src="res/rng_shuf_compare.png" class="pixelated" style="width:50.0%" alt="Diagram showing two sets of 50 10x10 regions. In the top set, each region is white, with some blue and red pixels, sometimes very few, sometimes more. In the bottom half, each region is white with exactly 1 red pixel and 5 blue ones. The colored pixels are scattered in different positions in all cases." /> </p>
 </section><section id="what-if" class="slide level2">
 <h2>What if… ?</h2>
 <ul>
@@ -380,6 +383,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Eventually add quests for specific words.</li>
 </ul></li>
 </ul>
+</section></section>
+<section><section id="quality" class="title-slide slide level1"><h1>Quality</h1></section><section id="limitations" class="slide level2">
+<h2>Limitations</h2>
+<ul>
+<li><em>Don’t</em> use for statistics or rigorous simulations.</li>
+<li>E.g., shuffling 100 items, there are ~<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>9.3</mn><mn>157</mn></msup><annotation encoding="application/x-tex">9.3^{157}</annotation></semantics></math> orderings.
+<ul>
+<li>But <code>anarchy</code> determines order by 64-bit seed (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>64</mn></msup><annotation encoding="application/x-tex">2^{64}</annotation></semantics></math> possibilities).</li>
+</ul></li>
+<li>Are the <code>anarchy</code> routines good enough?</li>
+</ul>
+</section><section id="anarchy-vs.-mersenne-twister" class="slide level2">
+<h2>Anarchy vs. Mersenne Twister</h2>
+<ul>
+<li>Python’s built-in <code>random</code> uses the Mersenne Twister algorithm.
+<ul>
+<li>2.5 KB of state</li>
+<li>Period is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>19937</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{19937}-1</annotation></semantics></math>.</li>
+</ul></li>
+<li>Anarchy has 64 bits of state; best-case period is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>64</mn></msup><annotation encoding="application/x-tex">2^{64}</annotation></semantics></math>.</li>
+<li>Compare <code>prng</code> and <code>shuffle</code>.</li>
+</ul>
+</section><section id="prng" class="slide level2">
+<h2>PRNG</h2>
+<div class="columns">
+<div class="img-no-border">
+<p><code>anarchy</code><br/> <img data-src="res/rng_seq_anarchy.png" class="pixelated" style="width:6em" alt="White-noise-like image (scattered white black and gray pixels) visualizing 10000 random values from anarchy." /> <img data-src="res/rng_coords_anarchy.png" class="pixelated" style="width:6em" alt="A star-like image with a black background and isolated white and gray pixels. Each pixels shows how many random numbers for that column of the image were followed by a random number in that column." /> </p>
+</div><div class="img-no-border">
+<p><code>random</code><br/> <img data-src="res/rng_seq_builtin.png" class="pixelated" style="width:6em" alt="Random values from Python’s built-in random function, visualized as with the values from anarchy." /> <img data-src="res/rng_coords_builtin.png" class="pixelated" style="width:6em" alt="Star-like image created using Python’s built-in random using the same method as the image for anarchy." /> </p>
+</div>
+</div>
+</section><section id="shuffle" class="slide level2">
+<h2>Shuffle</h2>
+<div class="columns">
+<div class="img-no-border">
+<p><code>anarchy</code><br/> <img data-src="res/rng_shuf_anarchy.png" class="pixelated" style="width:8em" alt="Image with four regions. At the top, 20 rows showing repeated shuffles of the same list, and 20 showing different shuffles of an initial list. At the bottom on the left, a darkish-gray random grayscale region visualizing relative frequencies of how often each input position ends up at each output position. At the bottom on the right, a gray square with a black diagonal and some faintly lighter horizontal and vertical stripes. This represents how often items in a given initial position (by row) end up in front of items from another initial position (by column) and would ideally be perfectly flat gray." /> <br/></p>
+</div><div class="img-no-border">
+<p><code>random</code><br/> <img data-src="res/rng_shuf_builtin.png" class="pixelated" style="width:8em" alt="Another image with the same layout and general appearance as the image for anarchy. Differences include a noticeably brighter bottom-left region, and a slightly flatter gray bottom-right region." /></p>
+</div>
+</div>
+</section><section id="distribution" class="slide level2">
+<h2>Distribution</h2>
+<div class="img-no-border">
+<p><img data-src="res/rng_dist_anarchy.png" class="pixelated" style="width:50.0%" alt="An image with four regions organized vertically. At the top, 20 lines showing different distributions of 50 items across 10 10-item bins. Below that, 7 groups of 5 lines each showing random distributions that get progressively rougher. The first group is all completely even distributions, and the last is very chaotic. Below that, ten rows where each pixel represents a bin and the color is how full it is, appearing generally gray with lighter and darker regions. Finally, another region with the same meaning, but where there are distinct very bright and dark patches (due to higher roughness)." /> </p>
+</div>
 </section></section>
 <section><section id="bonus-demo" class="title-slide slide level1"><h1>Bonus Demo</h1></section><section id="log-time-incremental-algorithms" class="slide level2">
 <h2>Log-time Incremental Algorithms</h2>

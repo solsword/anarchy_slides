@@ -1,5 +1,5 @@
 % Anarchy: Incremental Chaos
-% Peter Mawhorter
+% Peter Mawhorter<br/>Wellesley College
 % August 22, 2019
 
 # Incremental Noise
@@ -70,6 +70,10 @@ input coordinates → pseudo-random process → noise
 - Shuffles can be tiled, but then distribution must repeat.
 
 ![Diagram showing four colors being shuffled and then assigned to a 2x2 grid, with a final step that blurs between them.](res/shuffle_terrain.png){width=100%}\ 
+
+---
+
+![Diagram showing two sets of 50 10x10 regions. In the top set, each region is white, with some blue and red pixels, sometimes very few, sometimes more. In the bottom half, each region is white with exactly 1 red pixel and 5 blue ones. The colored pixels are scattered in different positions in all cases.](res/rng_shuf_compare.png){.pixelated width=50%}\ 
 
 ## What if... ?
 
@@ -251,6 +255,55 @@ distribution_prior_sum(s, N, S, C, α, seed)
     * Eventually add links between language planes.
 - We know where each copy of a word is.
     * Eventually add quests for specific words.
+
+# Quality
+
+## Limitations
+
+- *Don't* use for statistics or rigorous simulations.
+- E.g., shuffling 100 items, there are ~$9.3^{157}$ orderings.
+    * But `anarchy` determines order by 64-bit seed ($2^{64}$ possibilities).
+- Are the `anarchy` routines good enough?
+
+## Anarchy vs. Mersenne Twister
+
+- Python's built-in `random` uses the Mersenne Twister algorithm.
+    * 2.5 KB of state
+    * Period is $2^{19937}-1$.
+- Anarchy has 64 bits of state; best-case period is $2^{64}$.
+- Compare `prng` and `shuffle`.
+
+## PRNG
+
+<div class="columns">
+<div class="img-no-border">
+`anarchy`<br/>
+![White-noise-like image (scattered white black and gray pixels) visualizing 10000 random values from anarchy.](res/rng_seq_anarchy.png){width=6em .pixelated}\ ![A star-like image with a black background and isolated white and gray pixels. Each pixels shows how many random numbers for that column of the image were followed by a random number in that column.](res/rng_coords_anarchy.png){width=6em .pixelated}\ 
+</div>
+<div class="img-no-border">
+`random`<br/>
+![Random values from Python's built-in random function, visualized as with the values from anarchy.](res/rng_seq_builtin.png){width=6em .pixelated}\ ![Star-like image created using Python's built-in random using the same method as the image for anarchy.](res/rng_coords_builtin.png){width=6em .pixelated}\ 
+</div>
+</div>
+
+## Shuffle
+
+<div class="columns">
+<div class="img-no-border">
+`anarchy`<br/>
+![Image with four regions. At the top, 20 rows showing repeated shuffles of the same list, and 20 showing different shuffles of an initial list. At the bottom on the left, a darkish-gray random grayscale region visualizing relative frequencies of how often each input position ends up at each output position. At the bottom on the right, a gray square with a black diagonal and some faintly lighter horizontal and vertical stripes. This represents how often items in a given initial position (by row) end up in front of items from another initial position (by column) and would ideally be perfectly flat gray.](res/rng_shuf_anarchy.png){width=8em .pixelated}\ <br/>
+</div>
+<div class="img-no-border">
+`random`<br/>
+![Another image with the same layout and general appearance as the image for anarchy. Differences include a noticeably brighter bottom-left region, and a slightly flatter gray bottom-right region.](res/rng_shuf_builtin.png){width=8em .pixelated}
+</div>
+</div>
+
+## Distribution
+
+<div class="img-no-border">
+![An image with four regions organized vertically. At the top, 20 lines showing different distributions of 50 items across 10 10-item bins. Below that, 7 groups of 5 lines each showing random distributions that get progressively rougher. The first group is all completely even distributions, and the last is very chaotic. Below that, ten rows where each pixel represents a bin and the color is how full it is, appearing generally gray with lighter and darker regions. Finally, another region with the same meaning, but where there are distinct very bright and dark patches (due to higher roughness).](res/rng_dist_anarchy.png){width=50% .pixelated}\ 
+</div>
 
 # Bonus Demo
 
